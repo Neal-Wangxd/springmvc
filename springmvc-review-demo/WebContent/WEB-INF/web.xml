@@ -4,7 +4,7 @@
 	<display-name>springmvc-review-demo</display-name>
 	
 	<welcome-file-list>
-	  <welcome-file>page/jsp/index.jsp</welcome-file>
+	  <welcome-file>page/index.jsp</welcome-file>
 	</welcome-file-list>
 
 	<!-- 配置springmvc核心控制器类DispatcherServlet -->
