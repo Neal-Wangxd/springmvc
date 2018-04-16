@@ -22,7 +22,7 @@ public class HelloController {
 	@RequestMapping("/sayHello")
 	public String Hello(User user){
 		System.out.println("Hello SpringMVC..."+user);
-		return "/page/jsp/index";
+		return "/index";
 	}
 }
  
