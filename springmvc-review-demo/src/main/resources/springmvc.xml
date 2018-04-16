@@ -23,7 +23,7 @@
     <mvc:resources location="/js/" mapping="/js/**" />
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/"></property>
+		<property name="prefix" value="/page"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 	
