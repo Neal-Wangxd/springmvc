@@ -8,5 +8,8 @@
 </head>
 <body>
 	<h2>Hello World ....</h2>
+	<h2>通过Model获取返回数据 ：${username}</h2>
+	<h2>通过HttpServletRequest获取返回数据 ：${phone}</h2>
+	<h2>通过Map获取返回数据：${age}</h2>
 </body>
 </html>
