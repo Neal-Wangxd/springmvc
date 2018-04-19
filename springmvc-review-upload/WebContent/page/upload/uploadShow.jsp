@@ -29,8 +29,9 @@ request.setAttribute("basePath", basePath);
 	</style>
 </head>
 <body>
+	<!-- 如果上传到本地磁盘（非tomcat路径）时，不需要${basePath} ,若上传到tomcat路径下时需要${basePath}-->
 	<div>
-		<img alt="uploadShow" src="${basePath}${imagesPath}">
+		<img alt="uploadShow" src="${imagesPath}">
 	</div>
 	
 </body>
