@@ -1,16 +1,16 @@
 package com.springmvc.controller.upload;
 
-import java.io.File;
-import java.util.UUID;
+import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
+
+import com.springmvc.utils.FileUpload;
 
 /** 
 * @author 作者 wxd  
@@ -25,22 +25,36 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadController {
 
 	@RequestMapping("/testUpload")
-	public String uploadGo(HttpServletRequest request,
-			HttpServletResponse response,MultipartFile file,Model modle) throws Exception{
-		ServletContext sc = request.getServletContext();
-		String path = sc.getRealPath("/upload");
-		String fileName = file.getOriginalFilename();//文件名称
-		File filePath = new File(path +"/"+ UUID.randomUUID().toString()+"_"+ fileName);
-		file.transferTo(filePath);//将上传的文件保存到指定的路径下
-		String imagesPath = filePath.toString();
-		System.out.println(imagesPath);
-		modle.addAttribute("imagesPath", imagesPath);
+	public String uploadGo(HttpServletRequest request,MultipartFile file,Model modle) throws Exception{
+        /*String pathRoot = request.getSession().getServletContext().getRealPath(""); //获得物理路径webapp所在路径   
+        if(!file.isEmpty()){  
+            String fileName = file.getOriginalFilename();//文件名称
+            String path = "/upload/" + UUID.randomUUID().toString() +"_"+ fileName;  
+            file.transferTo(new File(pathRoot + path));  
+            modle.addAttribute("imagesPath", path);
+        }*/
+        String imagesPath = FileUpload.uploadSignle(request, file);
+        modle.addAttribute("imagesPath", imagesPath);
 		return "/upload/uploadShow";
 	}
 	
 	@RequestMapping("/upload")
 	public String upload(){
 		return "/upload/upload";
+	}
+	
+	@RequestMapping("/uploadMut")
+	public String uploadMut(){
+		return "/upload/uploadMut";
+	}
+	
+	
+	@RequestMapping("/testUploadMut")
+	public String uploadMutGo(HttpServletRequest request,MultipartRequest files,Map<String, Object> fileMap) throws Exception{
+		Map<String, Object> filepaths = FileUpload.uploadMult(request, files);
+		System.out.println(filepaths);
+		fileMap.put("imagesPathList", filepaths);
+		return "/upload/uploadShowMut";
 	}
 	
 }
