@@ -1,10 +1,15 @@
 package com.springmvc.controller.upload;
 
 import java.io.File;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /** 
@@ -12,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 * @version 1.0
 * E-mail: wangxudong@jetsen.cn
 * 创建时间：2018年4月19日 上午10:13:35 
-* 类说明 
+* 类说明   文件上传
 */
 
 @Controller
@@ -20,18 +25,18 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadController {
 
 	@RequestMapping("/testUpload")
-	@ResponseBody
-	public String uploadGo(MultipartFile file) throws Exception{
+	public String uploadGo(HttpServletRequest request,
+			HttpServletResponse response,MultipartFile file,Model modle) throws Exception{
+		ServletContext sc = request.getServletContext();
+		String path = sc.getRealPath("/upload");
 		String fileName = file.getOriginalFilename();//文件名称
-		String paramName = file.getName();//文件传递时的名称（页面传递的名称）
-		String path = "E:/testUpload/" + fileName;
-		File filePath = new File(path);
-		file.transferTo(filePath);
-		System.out.println(fileName);
-		System.out.println(paramName);
-		return "SUCCESS";
+		File filePath = new File(path +"/"+ UUID.randomUUID().toString()+"_"+ fileName);
+		file.transferTo(filePath);//将上传的文件保存到指定的路径下
+		String imagesPath = filePath.toString();
+		System.out.println(imagesPath);
+		modle.addAttribute("imagesPath", imagesPath);
+		return "/upload/uploadShow";
 	}
-	
 	
 	@RequestMapping("/upload")
 	public String upload(){
