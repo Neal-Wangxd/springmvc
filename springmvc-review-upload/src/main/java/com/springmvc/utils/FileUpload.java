@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartRequest;
 public class FileUpload {
 
 	/**
-	 * 多文件上传
+	 * 多文件上传(上传到服务器目录下)
 	 * @param request
 	 * @param files
 	 * @return
@@ -31,7 +31,6 @@ public class FileUpload {
 		Map<String, Object> filePahtMap = new HashMap<String, Object>();
 		try {
 			String pathRoot = request.getSession().getServletContext().getRealPath(""); 
-			//String path = "E:\\testUpload\\image\\";//sc.getRealPath("/upload");
 			String path = "/upload/" + UUID.randomUUID().toString() +"_"; 
 			Map<String, MultipartFile> fileMap = files.getFileMap();
 			Set<String> keySet = fileMap.keySet();
@@ -52,7 +51,7 @@ public class FileUpload {
 	}
 	
 	/**
-	 * 单文件上传
+	 * 单文件上传(上传到服务器目录下)
 	 * @param request
 	 * @param file
 	 * @return
@@ -67,6 +66,32 @@ public class FileUpload {
 				file.transferTo(new File(pathRoot + path));  
 				filePath =  path;
 			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return filePath;
+	}
+	
+	
+	/**
+	 * 上传文件到本地磁盘(需要在tomcat的server.xml配置文件中加如下配置)
+	 * <Context docBase="E:\testUpload\image" path="/testUpload/image" reloadable="false"/>
+	 * 并且页面获取时不需要${basePath}
+	 * @param request
+	 * @param file
+	 * @return
+	 */
+	public static String uploadToLocalDist(HttpServletRequest request,MultipartFile file){
+		String filePath = null;
+		String uuid = UUID.randomUUID().toString();
+		try{
+			if(!file.isEmpty()){  
+	            String fileName = file.getOriginalFilename();//文件名称
+	            String path = "E:/testUpload/image/" + uuid +"_"+ fileName;  
+	            file.transferTo(new File(path));  
+	            String imagesPath = "/testUpload/image/" + uuid +"_"+ fileName ;
+	            filePath = imagesPath;
+	        }
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
