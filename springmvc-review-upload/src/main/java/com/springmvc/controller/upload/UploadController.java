@@ -26,15 +26,9 @@ public class UploadController {
 
 	@RequestMapping("/testUpload")
 	public String uploadGo(HttpServletRequest request,MultipartFile file,Model modle) throws Exception{
-        /*String pathRoot = request.getSession().getServletContext().getRealPath(""); //获得物理路径webapp所在路径   
-        if(!file.isEmpty()){  
-            String fileName = file.getOriginalFilename();//文件名称
-            String path = "/upload/" + UUID.randomUUID().toString() +"_"+ fileName;  
-            file.transferTo(new File(pathRoot + path));  
-            modle.addAttribute("imagesPath", path);
-        }*/
-        String imagesPath = FileUpload.uploadSignle(request, file);
-        modle.addAttribute("imagesPath", imagesPath);
+		//String imagesPath = FileUpload.uploadSignle(request, file);
+		String imagesPath = FileUpload.uploadToLocalDist(request, file);
+		modle.addAttribute("imagesPath", imagesPath);
 		return "/upload/uploadShow";
 	}
 	
