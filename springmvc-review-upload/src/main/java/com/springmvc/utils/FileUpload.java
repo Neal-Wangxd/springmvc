@@ -2,6 +2,7 @@ package com.springmvc.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -72,6 +73,33 @@ public class FileUpload {
 		return filePath;
 	}
 	
+	/**
+	 * 单文件上传(上传到服务器目录下，非项目目录下)
+	 * @param request
+	 * @param file
+	 * @return
+	 */
+	public static String uploadSignleToTomcat(HttpServletRequest request,MultipartFile file){
+		String filePath = null;
+		try{
+			String pathRoot = request.getServletContext().getRealPath("/upload"); //获得物理路径webapp所在路径   
+			String basePath = pathRoot.split("webapps")[0] + "webapps\\upload\\";
+			File fileUpload = new File(basePath);
+			if(!fileUpload.exists()){
+				fileUpload.mkdir();
+			}
+			if(!file.isEmpty()){  
+				String fileName = file.getOriginalFilename();//文件名称
+				String path = UUID.randomUUID().toString() +"_"+ fileName;  
+				file.transferTo(new File(basePath + path));  
+				filePath =  "/upload/image/" + path;
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return filePath;
+	}
+	
 	
 	/**
 	 * 上传文件到本地磁盘(需要在tomcat的server.xml配置文件中加如下配置)
@@ -97,5 +125,41 @@ public class FileUpload {
 		}
 		return filePath;
 	}
+	
+	/**
+	 * 上传图片到远程服务器
+	 * @param request
+	 * @param file
+	 * @param serverPath
+	 * @param directory
+	 * @return
+	 */
+	public static String uploadToServer(HttpServletRequest request,MultipartFile file){
+		String filePath = null;
+		String uuid = UUID.randomUUID().toString();
+		String user = ConfigUtil.USER;
+		String password = ConfigUtil.PASSWORD;
+		String host = ConfigUtil.HOST;
+		Integer port = ConfigUtil.PORT;
+		String targetUrl = ConfigUtil.TARGET_URL;
+		String fileServerUrl = ConfigUtil.FILE_SERVER_URL;
+		try {
+			if(!file.isEmpty()){  
+				SFTPUpload sftp = new SFTPUpload(user, password, host, port);  
+		        sftp.login();  
+		        String fileName = file.getOriginalFilename();
+		        InputStream is = file.getInputStream(); 
+		        sftp.upload(targetUrl, uuid+"_"+fileName, is);  
+		        sftp.logout();  
+		        String imagesPath = fileServerUrl + uuid +"_"+ fileName ;
+		        filePath = imagesPath;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return filePath;
+	}
+	
+	
 }
  
