@@ -27,7 +27,15 @@ public class UploadController {
 	@RequestMapping("/testUpload")
 	public String uploadGo(HttpServletRequest request,MultipartFile file,Model modle) throws Exception{
 		//String imagesPath = FileUpload.uploadSignle(request, file);
-		String imagesPath = FileUpload.uploadToLocalDist(request, file);
+		String imagesPath = FileUpload.uploadToServer(request, file);
+		modle.addAttribute("imagesPath", imagesPath);
+		return "/upload/uploadShow";
+	}
+	
+	@RequestMapping("/testUploadTom")
+	public String uploadGoTom(HttpServletRequest request,MultipartFile file,Model modle) throws Exception{
+		String imagesPath = FileUpload.uploadSignleToTomcat(request, file);
+		System.out.println(imagesPath);
 		modle.addAttribute("imagesPath", imagesPath);
 		return "/upload/uploadShow";
 	}
