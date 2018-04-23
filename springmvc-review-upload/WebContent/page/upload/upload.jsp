@@ -14,6 +14,21 @@
 			form.submit();
 		}
 	</script>
+	<style type="text/css">
+		div{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width:650px;
+			height: 400px;
+			margin-left:-325px;
+			margin-top:-200px;
+		}
+		img{
+			height:400px;
+			width:650px ;
+		}
+	</style>
 </head>
 <body>
 	<h>文件上传</h>
