@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span>昵称：</span>
 					</td>
 					<td>
-						<input type="text" name="username" value="${userInfo.username}"  placeholder="输入至少6位字符"><small>${errorMsgList.usernameMsg}</small>
+						<input type="text" name="username" value="${errorMsgList.usernameMsg != null ? '' : userInfo.username}"  placeholder="输入至少6位字符"><small>${errorMsgList.usernameMsg}</small>
 					</td>
 				</tr>
 				<tr>
@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span>密码：</span>
 					</td>
 					<td>
-						<input type="password" name="password" value="${userInfo.password}" placeholder="输入至少8位字符"><small>${errorMsgList.passwordMsg}</small>
+						<input type="password" name="password" value="${errorMsgList.passwordMsg != null ? '' :userInfo.password}" placeholder="输入至少8位字符"><small>${errorMsgList.passwordMsg}</small>
 					</td>
 				</tr>
 				<tr>
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span>手机号：</span>
 					</td>
 					<td>
-						<input type="tel" name="phone" value="${userInfo.phone}" placeholder="输入正确手机号"><small>${errorMsgList.phoneMsg}</small>
+						<input type="tel" name="phone" value="${errorMsgList.phoneMsg != null ? '' :userInfo.phone}" placeholder="输入正确手机号"><small>${errorMsgList.phoneMsg}</small>
 					</td>
 				</tr>
 				<tr>
@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span>邮箱：</span>
 					</td>
 					<td>
-						<input type="email" name="email" value="${userInfo.email}" placeholder="输入正确的邮箱格式"><small>${errorMsgList.emailMsg}</small>
+						<input type="email" name="email" value="${errorMsgList.emailMsg != null ? '' :userInfo.email}" placeholder="输入正确的邮箱格式"><small>${errorMsgList.emailMsg}</small>
 					</td>
 				</tr>
 				<tr>
@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span>年龄：</span>
 					</td>
 					<td>
-						<input type="number" name="age" value="${userInfo.age}" placeholder="输入正确的年龄"><small>${errorMsgList.ageMsg}</small>
+						<input type="number" name="age" value="${errorMsgList.ageMsg != null ? '' :userInfo.age}" placeholder="输入正确的年龄"><small>${errorMsgList.ageMsg}</small>
 					</td>
 				</tr>
 				<tr>
