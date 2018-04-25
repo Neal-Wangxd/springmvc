@@ -253,5 +253,6 @@
 		<module>springmvc-review-demo</module>
 		<module>springmvc-review-upload</module>
     <module>springmvc-review-validator</module>
+    <module>springmvc-review-task</module>
   </modules>
 </project>
