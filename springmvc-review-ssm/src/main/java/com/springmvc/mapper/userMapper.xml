@@ -25,4 +25,12 @@
 		DELETE FROM USER WHERE ID = #{id}
 	</delete>
 	
+	<update id="lessMoney">
+		UPDATE USER SET SALARY = SALARY-#{money} WHERE ID = #{id};
+	</update>
+	
+	<update id="addMoney">
+		UPDATE USER SET SALARY = SALARY+#{money} WHERE ID = #{id};
+	</update>
+	
 </mapper>
