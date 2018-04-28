@@ -33,12 +33,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function removeUser(id){
 			window.location.href="<%=basePath%>/user/removeUser?id=" +id;
 		}
+		function toUserAccount(){
+			window.location.href="<%=basePath%>/user/toUserAccount";
+		}
 	</script>
 </head>
 <body>
 	<div>
 		<h4>USER LIST</h4>
 		<button onclick="toAddUser()">添加</button>
+		<button onclick="toUserAccount()">转账</button>
 		<table border="1">
 			<thead>
 				<td>序号</td>
