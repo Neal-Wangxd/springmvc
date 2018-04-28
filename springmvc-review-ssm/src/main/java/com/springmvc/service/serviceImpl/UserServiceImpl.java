@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.springmvc.entity.User;
 import com.springmvc.mapper.UserMapper;
@@ -18,6 +19,7 @@ import com.springmvc.service.UserService;
 * 类说明 
 */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Resource
@@ -47,6 +49,15 @@ public class UserServiceImpl implements UserService {
 	public boolean removeUser(long id) {
 		return userMapper.removeUser(id);
 	}
+
+	@Override
+	public boolean userAccount(double money, long addId, long lessId) {
+		boolean addFlag = userMapper.addMoney(money, addId);
+		//int i = 10/0;
+		boolean lessFlag = userMapper.lessMoney(money, lessId);
+		return addFlag && lessFlag;
+	}
+
 
 }
  
