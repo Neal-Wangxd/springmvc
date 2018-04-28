@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -144,6 +145,17 @@ public class UserController {
 			resultUrl = "redirect:/user/getAll";
 		}
 		return resultUrl;
+	}
+	
+	@RequestMapping("/toUserAccount")
+	public String toUserAccount(){
+		return "/user/userAccount";
+	}
+	
+	@RequestMapping("/userAccount")
+	public String userAccount(long addId, long lessId,double money){
+		userService.userAccount(money, addId, lessId);
+		return "redirect:/user/getAll";
 	}
 }
  
