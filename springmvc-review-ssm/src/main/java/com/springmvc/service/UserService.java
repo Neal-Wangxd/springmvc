@@ -2,6 +2,7 @@ package com.springmvc.service;
 
 import java.util.List;
 
+
 import com.springmvc.entity.User;
 
 
@@ -23,5 +24,7 @@ public interface UserService {
 	public boolean updateUser(User user);
 	
 	public boolean removeUser(long id);
+	
+	public boolean userAccount(double money,long addId,long lessId);
 }
  
