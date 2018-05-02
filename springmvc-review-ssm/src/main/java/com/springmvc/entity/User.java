@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.springmvc.util.validator.DateFormat;
 import com.springmvc.util.validator.Money;
 
@@ -41,6 +42,7 @@ public class User implements Serializable {
 	private Float hight;
 	@NotNull
 	@DateFormat(message="日期格式不正确 yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date birthday;
 	
 	
