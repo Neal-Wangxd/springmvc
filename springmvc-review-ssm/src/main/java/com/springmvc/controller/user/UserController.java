@@ -1,18 +1,23 @@
 package com.springmvc.controller.user;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springmvc.entity.User;
 import com.springmvc.service.UserService;
@@ -40,6 +45,56 @@ public class UserController {
 		return "/user/userShow";
 	}
 	
+	@RequestMapping("/getAllJson")
+	@ResponseBody
+	public List<User> getAllJson(Model model) throws Exception{
+		System.out.println(userService.list());
+		return userService.list();
+	}
+	
+	@RequestMapping("/getOneJson")
+	@ResponseBody
+	public User getOneJson(@RequestParam(value="id",required=true) long id){
+		User user = userService.findOne(id);
+		return user;
+	}
+	
+	@RequestMapping("/addUserJsonParam")
+	@ResponseBody
+	public User addUserJson(@RequestParam(value="username",required=true) String username,
+			@RequestParam(value="phone",required=true) String phone,
+			@RequestParam(value="salary",required=true) Double salary,
+			@RequestParam(value="age",required=true) Integer age,
+			@RequestParam(value="hight",required=true) Float hight,
+			@RequestParam(value="birthday",required=true) Date birthday){
+		User user = new User();
+		user.setUsername(username);
+		user.setPhone(phone);
+		user.setSalary(salary);
+		user.setAge(age);
+		user.setHight(hight);
+		user.setBirthday(birthday);
+		userService.addUser(user);
+		return user;
+	}
+	
+	/*@RequestMapping(value="/addUserJsonBody",method=RequestMethod.POST)
+	@ResponseBody
+	public String addUserJson(@RequestBody Map<String, Object> params){
+		for(Entry<String, Object> entry:params.entrySet()){
+            System.out.println(entry.getKey()+":"+entry.getValue());
+        }
+		return "----------";
+	}*/
+	
+	@RequestMapping(value="/addUserJsonBody",method=RequestMethod.POST)
+	@ResponseBody
+	public User addUserJson(@RequestBody User user){
+       if(null != user){
+    	   userService.addUser(user); 
+       }
+		return user;
+	}
 	
 	@RequestMapping("/getOne")
 	public String getOne(long id,Model model){
@@ -48,7 +103,7 @@ public class UserController {
 			model.addAttribute("userInfo", user);
 		}
 		System.out.println(user);
-		return "/user/userUpdate";
+		return "/user/userShow";
 	}
 	
 	@RequestMapping("/updateUser")
@@ -104,7 +159,12 @@ public class UserController {
 		return "/user/userAdd";
 	}
 	
-
+	
+	@RequestMapping("/toAddUserJson")
+	public String toAddUserJson(){
+		return "/user/userAddJson";
+	}
+	
 	@RequestMapping("/addUser")
 	public String addUser(@Valid User user,BindingResult errorResult,Map<String, Object> returnMap){
 		String resultUrl = "";
@@ -139,7 +199,7 @@ public class UserController {
 			
 			returnMap.put("errorMsgList", errorMap);
 			returnMap.put("userInfo", user);
-			resultUrl = "/user/userUpdate";
+			resultUrl = "/user/userAdd";
 		}else{
 			userService.addUser(user);
 			resultUrl = "redirect:/user/getAll";
