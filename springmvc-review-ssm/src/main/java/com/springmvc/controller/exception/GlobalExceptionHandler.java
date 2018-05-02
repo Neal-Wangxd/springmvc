@@ -1,5 +1,6 @@
 package com.springmvc.controller.exception;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	private static Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
 	
 	@ExceptionHandler(Exception.class)
 	public String errorView(Exception ex){
-		ex.printStackTrace();
+		logger.debug(ex.getMessage());
 		return "/error/error_500";
 	}
 }
